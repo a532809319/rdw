@@ -1,0 +1,46 @@
+{
+  "name": "dmweb",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "amqp": "0.2.6",
+    "ascoltatori": "4.1.0",
+    "async": "2.5.0",
+    "body-parser": "1.18.1",
+    "browser-sync": "2.18.13",
+    "connect-flash": "0.1.1",
+    "connect-redis": "3.3.0",
+    "cookie-parser": "1.4.3",
+    "datatables": "1.10.13",
+    "datatables.net": "1.10.16",
+    "debug": "3.0.1",
+    "express": "4.15.4",
+    "express-session": "1.15.5",
+    "express-ws-routes": "1.1.0",
+    "gulp": "3.9.1",
+    "gulp-clean-css": "3.8.0",
+    "gulp-header": "1.8.9",
+    "gulp-less": "3.3.2",
+    "gulp-rename": "1.2.2",
+    "gulp-uglify": "3.0.0",
+    "jquery": "3.2.1",
+    "moment": "2.18.1",
+    "mongodb": "2.2.31",
+    "mongoose": "4.11.11",
+    "morgan": "1.8.2",
+    "multer": "1.3.0",
+    "node-xlsx": "0.11.0",
+    "passport": "0.4.0",
+    "passport-local": "1.0.0",
+    "passport-local-mongoose": "4.2.1",
+    "redis": "2.8.0",
+    "serve-favicon": "2.4.4",
+    "uuid": "3.1.0"
+  },
+  "devDependencies": {
+
+  }
+}

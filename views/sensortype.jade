@@ -1,0 +1,48 @@
+extends layout
+block content
+    h1  sensor type list 
+        small 
+    font(color="red") For safety reason ,We don't support add or edit method here. Reviewed csv can be import for add or edit items. 
+    a(href="/xlsxtemplate/sandlacus.devicetypes.xlsx") template download
+    form(method='post' enctype="multipart/form-data")
+        input(type='file',name="sensortypelist")
+        button(type="submit") import device types
+    button export device list
+    hr
+    table(border=1)
+        thead
+            tr 
+                th code
+                th tname
+                th group
+                th function 
+                th model
+                th model name
+                th fota img
+                th remote configable
+                th heartbeat
+                th alert
+                th is gateway
+                th SaleName
+                th action
+
+        tbody
+            - for (var i = 0; i < dtlist.length; ++i) {
+                tr
+                    td 
+                        a  #{dtlist[i].code}
+                    td #{dtlist[i].tname}
+                    td #{dtlist[i].group} 
+                    td #{dtlist[i].function}
+                    td #{dtlist[i].model} 
+                    td #{dtlist[i].model_name} 
+                    td #{dtlist[i].fota_img}
+                    td #{dtlist[i].remote_configable}
+                    td #{dtlist[i].heartbeat}
+                    td #{dtlist[i].alert}
+                    td #{dtlist[i].is_gateway}
+                    td #{dtlist[i].SaleName}
+                    td 
+                        button remove
+ 
+            - }

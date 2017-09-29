@@ -1,0 +1,3 @@
+[submodule "services"]
+	path = services
+	url = http://gitlab.sandlacus.com/sandcloud/services.git

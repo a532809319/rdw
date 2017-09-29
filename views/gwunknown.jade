@@ -1,0 +1,28 @@
+extends layout
+block content
+    h1  Unknown Gateway list 
+
+    button export Unknown list
+    table(border=1)
+        thead
+            tr 
+                th did
+                th on
+                th ip
+                th actions
+
+        tbody
+            - for (var i = 0; i < dtlist.length; ++i) {
+                tr
+                    td 
+                        a  #{dtlist[i].did}
+                    td #{dtlist[i].on}
+                    td #{dtlist[i].ip} 
+                    td 
+                       form(method="post", action='')
+                            input(type="hidden",name="did",value="#{dtlist[i].did}")
+                            input(type="hidden",name="action",value="legay")
+                            button(type="submit") legay 
+                        button remove record
+ 
+            - }

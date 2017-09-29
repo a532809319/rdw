@@ -1,0 +1,27 @@
+extends ../layout
+block appendjs
+
+      script(src='/assets/javascripts/websocket.js')
+block content   
+    #debugdiv.container
+        .page-header
+            h2(style='margin-top:-20px;margin-left:20px; text-align:center; ') Decode Pack
+  
+        .row(style='margin-bottom:20px;')
+            .col-sm-6.col-md-5.col-lg-4
+                div
+                    input#inp_url.form-control(type='text', style='margin-bottom:3px;', placeholder='连接的地址', value='ws://#{host}/device/wsdecode')
+                    button#btn_conn.btn.btn-primary(type='button') 连接
+                    button#btn_close.btn.btn-danger(type='button', disabled='disabled') 断开
+                    span#btn_clear.btn.btn-default 清空消息
+
+                br
+
+                div(style='margin-bottom:20px;')
+                    textarea#inp_send.form-control(style='margin-bottom:3px;min-height:220px;', placeholder='发送的内容')
+                    button#btn_send.btn.btn-info.btn-block(type='button') 发送（ctrl+回车）
+            .col-sm-6.col-md-7.col-lg-8
+                #div_msgzone.panel.panel-default
+                    .panel-heading 消息窗口
+                    #div_msg.panel-body(style='min-height:400px;')
+

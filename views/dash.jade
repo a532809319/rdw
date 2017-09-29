@@ -1,0 +1,141 @@
+extends layout
+
+block appendcss 
+    link(href='/assets/theme/vendor/morrisjs/morris.css', rel='stylesheet')
+block appendjs
+    // Morris Charts JavaScript
+    script(src='/assets/theme/vendor/raphael/raphael.min.js')
+    script(src='/assets/theme/vendor/morrisjs/morris.min.js')
+    script(src='/assets/theme/data/morris-data.js')
+block content
+        .row
+          .col-lg-12
+            h1.page-header Dashboard（考虑合并相同的设备类型）
+          // /.col-lg-12
+        // /.row
+        .row
+          .col-lg-3.col-md-6
+            .panel.panel-primary
+              .panel-heading
+                .row
+                  .col-xs-3
+                    i.fa.fa-desktop.fa-5x
+                  .col-xs-9.text-right
+                    .huge  #{mqtt_online_count}
+                    div Online Gateways
+              a(href='#')
+                .panel-footer
+                  span.pull-left View Details
+                  span.pull-right
+                    i.fa.fa-arrow-circle-right
+                  .clearfix
+          .col-lg-3.col-md-6
+            .panel.panel-green
+              .panel-heading
+                .row
+                  .col-xs-3
+                    i.fa.fa-tasks.fa-5x
+                  .col-xs-9.text-right
+                    .huge 12
+                    div Actived
+              a(href='#')
+                .panel-footer
+                  span.pull-left View Details
+                  span.pull-right
+                    i.fa.fa-arrow-circle-right
+                  .clearfix
+
+                
+          .col-lg-3.col-md-6
+            .panel.panel-yellow
+              .panel-heading
+                .row
+                  .col-xs-3
+                    i.fa.fa-battery-empty.fa-5x
+                  .col-xs-9.text-right
+                    .huge 13
+                    div LOW Battery
+              a(href='#')
+                .panel-footer
+                  span.pull-left View Details
+                  span.pull-right
+                    i.fa.fa-arrow-circle-right
+                  .clearfix
+          .col-lg-3.col-md-6
+            .panel.panel-yellow
+              .panel-heading
+                .row
+                  .col-xs-3
+                    i.fa.fa-chain-broken.fa-5x
+                  .col-xs-9.text-right
+                    .huge 2
+                    div DISCONNECTED Sensors
+              a(href='#')
+                .panel-footer
+                  span.pull-left View Details
+                  span.pull-right
+                    i.fa.fa-arrow-circle-right
+                  .clearfix       
+          - for (devicetype in out_alertcount){
+          .col-lg-3.col-md-6
+            .panel.panel-red
+              .panel-heading
+                .row
+                  .col-xs-3
+                    i.fa.fa-warning.fa-5x
+                  .col-xs-9.text-right
+                    .huge #{out_alertcount[devicetype]}
+                    div #{devicetype}
+              a(href='#')
+                .panel-footer
+                  span.pull-left View Details
+                  span.pull-right
+                    i.fa.fa-arrow-circle-right
+                  .clearfix
+
+        
+          - }                             
+        // /.row
+        .row
+          .col-lg-8
+            .panel.panel-default
+              .panel-heading
+                i.fa.fa-bar-chart-o.fa-fw
+                |  Gateway online status monitor
+
+
+              // /.panel-heading
+              .panel-body
+                #morris-area-chart
+              // /.panel-body
+            // /.panel
+
+
+          .col-lg-4
+
+            .panel.panel-default
+              .panel-heading
+                i.fa.fa-bar-chart-o.fa-fw
+                |  active rate
+              .panel-body
+                #morris-donut-chart
+                a.btn.btn-default.btn-block(href='#') View Details
+
+            .panel.panel-default
+              .panel-heading
+                i.fa.fa-bell.fa-fw
+                |  Accept DTS
+              // /.panel-heading
+              .panel-body
+                .list-group
+                    - for (var i = 0; i < acceptdts.length; ++i) {
+                        a.list-group-item(href='#')
+                            i.fa.fa-comment.fa-fw
+                            |  #{acceptdts[i]}
+                            span.pull-right.text-muted.small
+                            em  -
+                            td   
+
+                            
+        
+                    - }

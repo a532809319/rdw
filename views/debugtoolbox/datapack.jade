@@ -1,0 +1,26 @@
+extends ../layout
+block content
+    h1  Gateway list 
+    button add datapack
+    button import datapack
+    button export datapack
+
+    table(border=1)
+        thead
+            tr 
+                th _id
+                th datapack(in json)
+                th note
+
+                th actions
+
+        tbody
+            - for (var i = 0; i < dtlist.length; ++i) {
+                tr
+                    td #{dtlist[i]._id}
+                    td #{dtlist[i].datapack}
+                    td #{dtlist[i].note}
+                    td 
+                         button remove
+ 
+            - }

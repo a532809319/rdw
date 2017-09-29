@@ -1,0 +1,40 @@
+extends layout
+block content
+    h1  sensor list 
+    button add new sensor 
+    button export sensor list
+    div 
+        
+        a(href="/xlsxtemplate/sandlacus.sensor.import.xlsx") template download
+        form(method='post' enctype="multipart/form-data")
+            input(type='file',name="gatewaylist")
+            input(type="hidden",name="action",value="import")
+            button(type="submit") import sensor list
+
+    
+    table(border=1)
+        thead
+            tr 
+                th sid
+                th tid
+                th hw_id
+                th sw_ver 
+                th gateway
+                th on 
+
+        tbody
+            - for (var i = 0; i < dtlist.length; ++i) {
+                tr
+                    td  #{dtlist[i].sid}
+                    td #{dtlist[i].tid}
+                    td #{dtlist[i].hw_id} 
+                    td #{dtlist[i].sw_ver}
+                    td 
+                        a(href="/device/gwbundling?did=#{dtlist[i].gateway}") #{dtlist[i].gateway}
+                    td #{moment(dtlist[i].on).format(YYYY/MM/DD)} 
+                    td 
+                        button edit 
+                        button remove
+
+ 
+            - }

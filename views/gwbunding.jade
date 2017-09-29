@@ -1,0 +1,82 @@
+extends layout
+block content
+
+
+    div.row
+        div.col-md-8
+            table(border=1)
+                thead
+                    tr 
+                        th did
+                        th actived
+                        th active_on
+                        th online 
+                        th laston
+                        th ip
+                        th actions
+
+                tbody
+                    - for (var i = 0; i < gw_info.length; ++i) {
+                        tr
+                            td   #{gw_info[i].did}
+                            td #{gw_info[i].actived}
+                            td 
+                                -if(gw_info[i].active_on){
+                                    #{moment(gw_info[i].active_on).format(YYYY/MM/DD)}      
+                                -} 
+                            td #{gw_info[i].online}
+                            td #{moment(gw_info[i].laston).format(YYYY/MM/DD)} 
+                            td #{gw_info[i].ip}
+                            td
+                                a(href="/device/bundlesensor?did=#{gw_info[i].did}") bundle  
+                                a(href="/device/debuggateway?did=#{gw_info[i].did}") sendpack  
+                            
+        
+                    - }
+        div.col-md-4
+            table(border=1)
+                thead
+                    tr 
+                        th parameter key
+                        th parameter value
+                        th 
+                            button sync back
+                tbody
+                    tr 
+                        td sameple
+                        td sameple
+                        td 
+                            button edit inline later
+                    tr 
+                        td sameple
+                        td sameple
+                        td 
+                            button edit inline later                        
+    table(border=1)
+        thead
+            tr 
+                th sid
+                th tid
+                th hw_id
+                th sw_ver 
+                th gateway
+                th last event on 
+                th actions
+
+        tbody
+            - for (var i = 0; i < sens_info.length; ++i) {
+                tr
+                    td   #{sens_info[i].sid}
+                    td #{sens_info[i].tid}
+                    td #{sens_info[i].hw_id} 
+                    td #{sens_info[i].sw_ver}
+                    td #{sens_info[i].gateway}
+                    td #{moment(sens_info[i].on).format(YYYY/MM/DD)} 
+                    td 
+                        button drop from gateway
+
+                        a(href="/device/events?sid=#{sens_info[i].sid}") events  
+                        text |
+                        a(href="/device/alerts?sid=#{sens_info[i].sid}")   alerts
+ 
+            - }

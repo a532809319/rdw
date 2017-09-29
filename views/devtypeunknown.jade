@@ -1,0 +1,31 @@
+extends layout
+block content
+    h1  Unknown Senor type List
+
+    button export device list
+    button clear list
+    table(border=1)
+        thead
+            tr 
+                th did
+                th actived
+                th active_on
+                th online 
+                th laston
+                th actions
+
+        tbody
+            - for (var i = 0; i < dtlist.length; ++i) {
+                tr
+                    td 
+                        a  #{dtlist[i].did}
+                    td #{dtlist[i].actived}
+                    td #{dtlist[i].active_on} 
+                    td #{dtlist[i].online}
+                    td #{dtlist[i].laston} 
+                    td 
+                        button move to legal
+                        button remove record
+
+ 
+            - }

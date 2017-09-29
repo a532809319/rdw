@@ -1,0 +1,53 @@
+extends layout
+block content
+    h1  Gateway list
+    div.row
+        div.col-md-4
+            button.btn.btn-primary.btn-xs(type='button') add gateway
+            button.btn.btn-primary.btn-xs(type='button') export device list
+        div.col-md-2
+            a(href="/xlsxtemplate/sandlacus.gatewaylist.xlsx") template download
+        div.col-md-6
+            form(method='post' enctype="multipart/form-data")
+                input(type='file',name="gatewaylist")
+                input(type="hidden",name="action",value="import")
+                button.btn.btn-primary.btn-xs(type="submit") import gateway list
+
+    div.row
+        table(border=1)
+            thead
+                tr 
+                    th did
+                    th actived
+                    th active_on
+                    th online 
+                    th laston
+                    th ip
+                    th actions
+
+            tbody
+                - for (var i = 0; i < dtlist.length; ++i) {
+                    tr
+                        td 
+                            a(href="/device/gwbundling?did=#{dtlist[i].did}") #{dtlist[i].did}
+                        td #{dtlist[i].actived}
+                        td 
+                            -if(dtlist[i].active_on){
+                            #{moment(dtlist[i].active_on).format(YYYY/MM/DD)}   
+                            -} 
+                        td #{dtlist[i].online}
+                        td #{moment(dtlist[i].laston).format(YYYY/MM/DD)} 
+                        td #{dtlist[i].ip} 
+                        td 
+                            div.row
+                                div.col-md-1
+                                div.col-md-3
+                                    button.btn.btn-primary.btn-xs edit
+                                div.col-md-5 
+                                    form(method="post", action='')
+                                        input(type="hidden",name="did",value="#{dtlist[i].did}")
+                                        input(type="hidden",name="action",value="remove")
+                                        button.btn.btn-danger.btn-xs(type="submit") remove 
+            
+    
+                - }

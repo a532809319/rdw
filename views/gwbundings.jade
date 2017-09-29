@@ -1,0 +1,119 @@
+extends layout
+
+block appendcss
+    link(rel='stylesheet', href='/table/bootstrap-table/src/bootstrap-table.css')
+    link(rel='stylesheet', href='/table/examples.css')
+block content
+    .row
+        .col-lg-12
+            h1.page-header gateway bunding lists
+        // /.col-lg-12
+
+    //link(rel='stylesheet', href='/table/bootstrap/css/bootstrap.min.css')
+
+
+
+    .container(style='width:98%')
+        div.panel.panel-default
+            div.panel-heading
+                | Gateway
+            #toolbar(style="margin:10px")
+                a#bundle.btn.btn-success  bundle
+                a#sendback.btn.btn-danger(style="margin-left:10px")  sendpack
+
+            table#table(data-locale="zh-CN",data-events="operateEvent",
+            data-toggle='table',  data-url='/jsonapi/gwbundlings?gateway=1&&did='+did)
+                thead
+                    tr
+
+                        th(data-field='did',data-align="center") did
+                        th(data-field='actived',data-align="center") actived
+                        th(data-field='ban',data-align="center") ban
+                        th(data-field='laston',data-align="center") laston
+                        th(data-field='ip',data-align="center") ip
+                        th(data-field='online',data-align="center") online
+
+            div.panel.panel-default(style='margin-top:20px')
+                div.panel-heading
+                    |under the Gateway of sensor
+                table#table2(data-locale="zh-CN",
+                data-sort-order="sid",
+                data-events="operateEvent",data-toggle='table',  data-url='/jsonapi/gwbundlings?did=' + did)
+                    thead
+                        tr
+                            th(data-align="center",data-formatter="dataFormater1") alert
+                            th(data-align="center",data-formatter="dataFormater2") event
+                            th(data-align="center",data-formatter="dataFormater") actons
+
+                            th(data-field='sid',data-align="center" data-sortable="true") sid
+                            th(data-field='tid',data-align="center") tid
+                            th(data-field='hw_id',data-align="center") hw_id
+                            th(data-field='sw_ver',data-align="center") sw_ver
+                            th(data-field='gateway',data-align="center") gateway
+                            th(data-field='on',data-align="center") on
+                div.panel.panel-default(style='margin-top:20px')
+                    div.panel-heading
+                        |under the Gateway of sensor
+                    table#table3(data-locale="zh-CN",
+                    data-sort-order="sid",
+                    data-events="operateEvent",data-toggle='table',  data-url='/jsonapi/gwbundlings?did=bind')
+                        thead
+                            tr
+                                th(data-align="center",data-formatter="dataFormaterediter") alert
+
+
+                                th(data-field='sid',data-align="center" data-sortable="true") parameter key
+                                th(data-field='tid',data-align="center") parameter key
+
+block  appendjs
+    script(src='/table/bootstrap-table/src/bootstrap-table.js')
+    script(src='/table/bootstrap-table/src/extensions/flat-json/bootstrap-table-flat-json.js')
+    script(src='/table/bootstrap-table/src/local/bootstrap-table-zh-CN.js')
+
+    script.
+
+            var $table = $('#table')
+            var $table2 = $('#table2')
+            var $table3 = $('#table3')
+            $bundle = $('#bundle');
+            $sendback = $('#sendback');
+            function dataFormater1 (value, row, index) {
+
+                return strHtml="<a id=\"bundle\" href='/jsonapi/event?sid=" + row.sid + "' class=\"btn btn-danger btn-xs\"> Event</a>"
+            }
+            function dataFormater2(value, row, index) {
+
+                return strHtml = "<a id=\"bundle\" href='/jsonapi/alert?sid=" + row.sid + "' class=\"btn btn-success btn-xs\"> Alert</a>"
+            }
+            function dataFormater(value, row, index) {
+
+                return strHtml = "<a id=\"bundle\" href='/jsonapi/drop?sid=" + row.sid + "' class=\"btn btn-success btn-xs\"> drop</a>"
+            }
+
+            $(function () {
+                $bundle.click(function () {
+                    var data=JSON.stringify($table.bootstrapTable('getData'))
+                    // $(location).attr('href', './');
+                    var did= JSON.parse(data)[0].did
+                    console.log(did)
+
+                    $('#bundle').attr('href', './bundlesensor?did='+did)
+                });
+                $sendback.click(function () {
+                    var data = JSON.stringify($table.bootstrapTable('getData'))
+                    // $(location).attr('href', './');
+                    var did = JSON.parse(data)[0].did
+                    console.log(did)
+
+                    $('#sendback').attr('href', './../device/debuggateway?did=' + did)
+                });
+
+
+            });
+
+
+
+
+
+
+

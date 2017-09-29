@@ -1,0 +1,120 @@
+// Navigation
+nav.navbar.navbar-default.navbar-static-top(role='navigation', style='margin-bottom: 0')
+  .navbar-header
+    button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-collapse')
+      span.sr-only Toggle navigation
+      span.icon-bar
+      span.icon-bar
+      span.icon-bar
+    a.navbar-brand(href='/') Sandlacus Datapicker R&D Portal(corpnet access only.  NOT for operation)
+  // /.navbar-header
+  ul.nav.navbar-top-links.navbar-right
+
+
+
+    li.dropdown
+      a.dropdown-toggle(data-toggle='dropdown', href='#')
+        | #{user.username}
+        i.fa.fa-user.fa-fw
+        i.fa.fa-caret-down
+      ul.dropdown-menu.dropdown-user
+        li
+          a(href='#')
+            i.fa.fa-user.fa-fw
+            |  User Profile
+        li
+          a(href='#')
+            i.fa.fa-gear.fa-fw
+            |  Settings
+        li.divider
+        li
+          a(href='/users/logout')
+            i.fa.fa-sign-out.fa-fw
+            |  Logout
+      // /.dropdown-user
+    // /.dropdown
+  // /.navbar-top-links
+  .navbar-default.sidebar(role='navigation')
+    .sidebar-nav.navbar-collapse
+      ul#side-menu.nav
+        li.sidebar-search
+          .input-group.custom-search-form
+            input.form-control(type='text', placeholder='Search...')
+            span.input-group-btn
+              button.btn.btn-default(type='button')
+                i.fa.fa-search
+          // /input-group
+        li
+          a(href='/dash')
+            i.fa.fa-dashboard.fa-fw
+            |  Dashboard
+        li
+          a(href='#')
+            i.fa.fa-bar-chart-o.fa-fw
+            |  Gateway & Sensor Management
+            span.fa.arrow
+          ul.nav.nav-second-level
+            li
+              a(href='/jsonapi/gateway') View Gateways
+            li
+              a(href='/jsonapi/sensors') View Sensors
+          // /.nav-second-level
+
+        li
+          a(href='#')
+            i.fa.fa-wrench.fa-fw
+            |  Image Management
+            span.fa.arrow
+          ul.nav.nav-second-level
+            li
+              a(href='/imgserice/list')  list images 
+            li
+              a(href='/imgserice/upload') upload images
+            li
+              a(href='/imgserice/review') review & approval
+        li
+          a(href='#')
+            i.fa.fa-wrench.fa-fw
+            |  Config Device Types
+            span.fa.arrow
+          ul.nav.nav-second-level
+            li
+              a(href='/device/sensortype') Device Type Management
+
+          // /.nav-second-level
+        li
+          a(href='#')
+            i.fa.fa-sitemap.fa-fw
+            |  Deep Users
+            span.fa.arrow
+          ul.nav.nav-second-level
+
+            li
+                a(href='#')
+                    | Debug 
+                    span.fa.arrow
+                ul.nav.nav-third-level
+                    li
+                        a(href='/device/datapack') Data packs
+                    li
+                        a(href='/device/debuggateway') Debug Gateway
+                    li
+                        a(href='/device/decodepack') Decode Pack
+            li
+              a(href='#')
+                | Unknowns/Exceptions
+                span.fa.arrow
+              ul.nav.nav-third-level
+                li
+                  a(href='/device/devtypeunknown') Unknown Device types
+                li
+                  a(href='/device/gwunknown') Unknown Gateways
+                li
+                  a(href='/device/unknownsensor') Unknown Sensors
+
+              // /.nav-third-level
+          // /.nav-second-level
+
+          // /.nav-second-level
+    // /.sidebar-collapse
+  // /.navbar-static-side

@@ -1,0 +1,34 @@
+extends ../layout
+block appendjs
+
+      script(src='/assets/javascripts/websocket.js')
+block content   
+    #debugdiv.container
+
+        .row(style='margin-bottom:20px;')
+
+            .col-sm-6.col-md-5.col-lg-4
+                .page-header
+                    h2(style='margin-top:-20px;margin-left:20px; text-align:center; ') Remote Console 
+                    pre
+                        | 时间戳可以写作$DT，系统将帮助你替换为当前时间 例如 "sts":“$DT” 
+                        | 随机UUID可写作$UUID  
+                        | 设备号可以写作 $DID
+                        | sample
+                        |{"headers":{"ev":"v1","sts":"$DT","func":"2","pv":"3.0.0.1","sig":"0","enc":"2"},"body":{"msgid":"$UUID","st":"0","et":"$DT"}}
+                div()
+                    input#inp_url.form-control(type='text', style='margin-bottom:3px;', placeholder='连接的地址', value='ws://#{host}/device/wsdebuggateway?did=#{did}')
+                    button#btn_conn.btn.btn-primary(type='button') 连接
+                    button#btn_close.btn.btn-danger(type='button', disabled='disabled') 断开
+                    span#btn_clear.btn.btn-default 清空消息
+
+                br
+
+                div(style='margin-bottom:20px;width:75%')
+                    textarea#inp_send.form-control(style='margin-bottom:3px;min-height:220px;', placeholder='发送的内容')
+                    button#btn_send.btn.btn-info.btn-block(type='button') 发送（ctrl+回车）
+            .col-sm-6.col-md-7.col-lg-8
+                #div_msgzone.panel.panel-default(style="width:75%")
+                    .panel-heading 消息窗口
+                    #div_msg.panel-body(style='min-height:400px;')
+

@@ -1,0 +1,142 @@
+extends layout
+block appendcss
+    link(rel='stylesheet', href='/table/bootstrap-table/src/bootstrap-table.css')
+    link(rel='stylesheet', href='/table/examples.css')
+
+
+
+block content
+
+
+
+
+    .row
+        .col-lg-12
+            div.row(style=";margin:8px;")
+                div.panel
+
+                    div.row
+                        div.col-md-4
+                            h1  Sensor list
+                        div.col-md-1(style="margin-top:20px;margin-left:30px")
+                            // The fileinput-button span is used to style the file input field as button
+                            form(method='post' action="/jsonapi/sensor" style='' enctype="multipart/form-data")
+                            .face
+                                p
+                                    img.normalFace(src='/upload.png' style="display:block;display:inline-block;height:20px;margin-top:10px" , onclick='fileSelect();')
+                                form#form_face(enctype='multipart/form-data',method='post',action="/jsonapi/sensor", style='width:auto;')
+                                    input#fileToUpload(type='file', name='gatewaylist', onchange='fileSelected();', style='display:none;')
+                                    input(type="hidden",name="action",value="import")
+                                    button.btn.btn-primary#btn(type="submit",style="display:none") import gateway list
+                        div.col-md-6(style="padding-top:30px")
+                            button.btn.btn-success.btn-xs(type='button' style="margin-left:100px") add gateway
+                            button.btn.btn-success.btn-xs(type='button',style="margin:0 10px") export gateway list
+                            button.btn.btn-success.btn-xs(type='button')
+
+                                a(href="/xlsxtemplate/sandlacus.gatewaylist.xlsx",style="margin:0 10px") template download
+                        div.col-md-1
+                                a(href="/jsonapi/addsensor") add sensor
+    .container(style='width:98%')
+        // button#remove.btn.btn-danger(disabled='') 删除
+
+        table#table(data-locale="zh-CN",data-toggle='table',data-toolbar="#remove",
+        data-show-export='true',data-page-size='12',data-side-pagination="server",
+        data-search="true",
+
+        data-show-refresh='true',
+        data-show-toggle='true',
+        data-show-columns='true',
+        data-pagination='true', data-click-to-select='true', data-url='/jsonapi/sensor')
+            thead
+                tr
+                    th(data-field='state', data-checkbox='true')
+                    th(data-field='sid',data-align="center") tid
+                    th(data-field='tid',data-align="center") sid
+                    th(data-field='hw_id',data-align="center") hw_id
+                    th(data-field='sw_ver',data-align="center") sw_ver
+                    th(data-field='gateway',data-formatter="LinkFormatter",data-align="center") gateway
+                    th(data-field='on',data-align="center") on
+                    th(data-align="center",data-formatter="dataFormater") Actons Edite
+
+block appendjs
+    script(src='/table/bootstrap-table/src/bootstrap-table.js')
+    script(src='/table/bootstrap-table/src/local/bootstrap-table-zh-CN.js')
+    script.
+
+        function fileSelect() {
+            document.getElementById("fileToUpload").click();
+        }
+
+        function fileSelected() {
+            // 文件选择后触发次函数
+            document.getElementById("btn").click();
+
+        }
+
+        function dataFormater(value, row, index) {
+
+            var id = row.id;
+            console.log(row, "sid")
+            console.log(row.id, "sid")
+            console.log(row.sid, "sid")
+
+            //var strHTML = "<div class='btn-group' astyle='position: absolute'><button type='button' class='btn btn-primary btn-xs dropdown-toggle' data-toggle='dropdown'>Options<span class='caret'></span></button><ul class='dropdown-menu text-left' role='menu' style='position:absolute'>";
+            //strHTML += "<li><a style='color: red'  href='/drop/" + id + "'><span class='glyphicon glyphicon-edit'></span>&nbsp;&nbsp;Drop</a></li>";
+            // strHTML += "<li><a style='color: greenyellow' href='../device/events?sid=" + row.sid + "'><span class='glyphicon glyphicon-adjust'></span>&nbsp;&nbsp;Event</a></li>";
+            //strHTML += "<li><a style='color: blue' href='../device/alerts?sid=" + row.sid + "'><span class='glyphicon glyphicon-alert'></span>&nbsp;&nbsp;Alert</a></li>";
+            //strHTML += "</ul></div>";
+
+            var valReturn = [
+                '<a class="btn btn-primary btn-xs edit" href="javascript:void(0)" title="Edit">',
+                '<i class="glyphicon glyphicon-edit"></i>',
+                '</a>  ',
+                '<a class="btn btn-primary btn-xs" href="javascript:void(0)" title="Remove">',
+                '<i class="glyphicon glyphicon-remove"></i>',
+                '</a>'
+            ].join('');
+            ;
+
+            return valReturn;
+        }
+
+
+
+        function LinkFormatter(value, row, index) {
+
+            return "<a href='" +'../jsonapi/gwbundling?did='+ row.sid+ "'>" + value + "</a>";
+        }
+        var $table = $('#table');
+        $remove = $('#remove');
+        $(function () {
+            $('#toolbar').find('select').change(function () {
+                $table.bootstrapTable('destroy').bootstrapTable({
+                    exportDataType: $(this).val()
+                });
+            });
+
+
+        })
+        $table.on('check.bs.table uncheck.bs.table check-all.bs.table uncheck-all.bs.table', function () {
+            $remove.prop('disabled', !$table.bootstrapTable('getSelections').length);
+        });
+        $remove.click(function () {
+            var ids = $.map($table.bootstrapTable('getSelections'), function (row) {
+                console.log(row,"row")
+                // for(index in row)
+
+                $.post("/jsonapi/gateways", {action: 'remove',did:row.did}, function (result) {
+                    //$("span").html(result);
+                    console.log(result);
+                    $table.bootstrapTable('refresh');
+                });
+                return row._id
+            });
+
+            $table.bootstrapTable('remove', {
+                field: 'id',
+                values: ids
+            });
+            $remove.prop('disabled', true);
+        });
+
+

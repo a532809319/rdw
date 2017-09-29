@@ -1,0 +1,39 @@
+extends layout
+block content
+    h1  Unknown Senor Instance List
+
+    button export device list
+    button clear list
+    button check_unknown
+
+
+
+    table(border=1)
+        thead
+            tr 
+                th sid
+                th evt
+                th on
+
+                th actions
+
+        tbody
+            - for (var i = 0; i < dtlist.length; ++i) {
+                tr
+                    td #{dtlist[i].sid}
+                    td #{dtlist[i].evt} 
+                    td #{moment(dtlist[i].on).format(YYYY/MM/DD)}
+
+                    td 
+                        form(method="post")
+                            input(type="hidden",name="id",value="#{dtlist[i]._id}")
+                            input(type="hidden",name="action",value="allow")
+                            button(type="submit") allow 
+
+                        form(method="post", action='')
+                            input(type="hidden",name="id",value="#{dtlist[i]._id}")
+                            input(type="hidden",name="action",value="remove")
+                            button(type="submit") remove 
+
+ 
+            - }

@@ -1,0 +1,129 @@
+extends layout
+
+block appendcss
+    link(rel='stylesheet', href='/table/bootstrap-table/src/bootstrap-table.css')
+    link(rel='stylesheet', href='/table/examples.css')
+
+block content
+    .row
+        .col-lg-12
+            h1.page-header  Events
+
+    .container(style='width:90%')
+        div.panel.panel-default
+            div.panel-heading()
+                | #{title} list #{sid}
+            button#remove.btn.btn-danger(disabled='',style='margin-left:10px') 删除
+
+            table#table(data-locale="zh-CN",data-toggle='table',data-toolbar="#remove",
+            data-show-export='true',data-page-size='12',data-side-pagination="server",
+                data-show-refresh='true',
+                data-show-toggle='true'
+                data-show-columns='true',
+            data-search="true",
+
+            data-pagination='true', data-click-to-select='true', data-url='/jsonapi/#{title}?sid='+sid)
+                thead
+                    tr
+
+                        th(data-field='state' , data-checkbox='true')
+
+                        th(data-field='did',data-align="center" ,data-formatter="LinkFormatter") gateway
+
+                        th(data-field='p',data-align="center",) proi
+                        th(data-field='nt',data-align="center") net tpye
+                        th(data-field='data',data-align="center") data
+                        th(data-field='fwv',data-align="center") fwv
+                        th(data-field='ext',data-formatter="objFormatter",data-align="center") ext
+                        th(data-field="rt",data-formatter="timeFormatter",data-align="center") recieve time
+                        th(data-field="st",data-formatter="timeFormatter",data-align="center") stop  time
+                        th(data-field="at",data-formatter="timeFormatter",data-align="center") answer  time
+                        th(data-align="center",data-formatter="dataFormater") actons  edit
+block appendjs
+    script(src='/table/jquery.min.js')
+    script(src='/table/bootstrap-table/src/bootstrap-table.js')
+    script(src='/table/bootstrap-table/src/extensions/flat-json/bootstrap-table-flat-json.js')
+    script(src='/table/bootstrap-table/src/local/bootstrap-table-zh-CN.js')
+    script(src='/table/bootstrap-table/src/rawgit/moment.js')
+    script.
+        function timeFormatter(value, row, index) {
+            return moment(value).format('DD/MM/YYYY');
+
+        }
+        function objFormatter (value, row, index) {
+            /*for (key in  value){
+                console.log(key)
+            }*/
+           var v =JSON.stringify(value)
+            console.log(v)
+
+            return v
+        }
+
+        function LinkFormatter(value, row, index) {
+
+            return "<a href='" + '../jsonapi/gwbundling?did=' + row.did + "'>" + value + "</a>";
+        }
+        function LinkFormatter(value, row, index) {
+
+            return "<a href='" +'../jsonapi/gwbundling?did='+ row.did+ "'>" + value + "</a>";
+        }
+        var $table = $('#table');
+        $remove = $('#remove');
+        $(function () {
+            $('#toolbar').find('select').change(function () {
+                $table.bootstrapTable('destroy').bootstrapTable({
+                    exportDataType: $(this).val()
+                });
+            });
+
+
+        })
+        $table.on('check.bs.table uncheck.bs.table check-all.bs.table uncheck-all.bs.table', function () {
+            $remove.prop('disabled', !$table.bootstrapTable('getSelections').length);
+        });
+        $remove.click(function () {
+            var ids = $.map($table.bootstrapTable('getSelections'), function (row) {
+                console.log(row,"row")
+                // for(index in row)
+
+                $.post("/jsonapi/gateways", {action: 'remove',did:row.did}, function (result) {
+                    //$("span").html(result);
+                    console.log(result);
+                    $table.bootstrapTable('refresh');
+                });
+                return row._id
+            });
+
+            $table.bootstrapTable('remove', {
+                field: 'id',
+                values: ids
+            });
+            $remove.prop('disabled', true);
+        });
+        function dataFormater(value, row, index) {
+
+            var id = row.id;
+            console.log(row, "sid")
+            console.log(row.id, "sid")
+            console.log(row.sid, "sid")
+
+            //var strHTML = "<div class='btn-group' astyle='position: absolute'><button type='button' class='btn btn-primary btn-xs dropdown-toggle' data-toggle='dropdown'>Options<span class='caret'></span></button><ul class='dropdown-menu text-left' role='menu' style='position:absolute'>";
+            //strHTML += "<li><a style='color: red'  href='/drop/" + id + "'><span class='glyphicon glyphicon-edit'></span>&nbsp;&nbsp;Drop</a></li>";
+           // strHTML += "<li><a style='color: greenyellow' href='../device/events?sid=" + row.sid + "'><span class='glyphicon glyphicon-adjust'></span>&nbsp;&nbsp;Event</a></li>";
+            //strHTML += "<li><a style='color: blue' href='../device/alerts?sid=" + row.sid + "'><span class='glyphicon glyphicon-alert'></span>&nbsp;&nbsp;Alert</a></li>";
+            //strHTML += "</ul></div>";
+
+            var valReturn = [
+                            '<a class="btn btn-primary btn-xs edit" href="javascript:void(0)" title="Edit">',
+                            '<i class="glyphicon glyphicon-edit"></i>',
+                            '</a>  ',
+                            '<a class="btn btn-primary btn-xs" href="javascript:void(0)" title="Remove">',
+                            '<i class="glyphicon glyphicon-remove"></i>',
+                            '</a>'
+                        ].join('');;
+
+            return valReturn;
+        }
+
+

@@ -1,0 +1,14 @@
+extends layout
+block content
+    h1   sensor bundling for #{did}
+    h3 add sensor list for this gateway,1 sensor each line
+
+
+    form(method="post", action='')
+
+        .form-group
+            label
+            input(type="hidden",name="did",value="#{did}")
+
+            textarea.form-control(rows='5',name="sensor_list")
+            button(type="submit") bundling

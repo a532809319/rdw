@@ -1,0 +1,37 @@
+extends layout
+block content
+    .row
+        .col-lg-12
+            h1.page-header  add sensor
+
+
+    form(role='form',method='post',action='')
+        div.row
+            div.col-md-1
+            div.col-md-4
+                .form-group.input-group
+                    span.input-group-addon sid
+                    input.form-control(type='text',name='sid' placeholder='sid')
+            div.col-md-1
+            div.col-md-4
+                .form-group.input-group
+                    span.input-group-addon tid
+                    input.form-control(type='text',name='tid' placeholder='tid')
+        div.row(style="height:20px")
+        div.row
+            div.col-md-1
+            div.col-md-4
+                .form-group.input-group
+                    span.input-group-addon hw_id
+                    input.form-control(type='text', name='hw_id',placeholder='hw_id')
+            div.col-md-1
+            div.col-md-4
+                .form-group.input-group
+                    span.input-group-addon sw_ver
+                    input.form-control(type='text',name="sw_ver", placeholder='sw_ver')
+        div.row(style="height:20px")
+
+        div.row
+                div.col-md-4
+                div.col-md-3.form-group.input-group
+                     input.form-control.btn-primary(type='submit',style="width:100%;display:inline-block",value="save")

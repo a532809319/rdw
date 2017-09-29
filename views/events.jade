@@ -1,0 +1,41 @@
+extends layout
+block content
+
+    H1 #{ type} list - #{ sid}
+
+    table(border=1)
+        thead
+            tr 
+                th gateway
+                th proi
+                th nettype 
+                th data
+                th fwv
+                th ext
+                th t                
+                th recieve time
+                th send time
+                th anwser time
+        tbody
+            - for (var i = 0; i < events.length; ++i) {
+                tr
+                    td 
+                        a(href="/device/gwbundling?did=#{events[i].did}")  #{events[i].did}
+
+                    td #{events[i].p}
+                    td #{events[i].nt}
+
+                    td #{events[i].data}
+                    td #{events[i].fwv}
+                    td #{JSON.stringify(events[i].ext)}
+                    td #{events[i].t}
+                    td #{moment(events[i].rt).format(YYYY/MM/DD)}
+                    td #{moment(events[i].st).format(YYYY/MM/DD)} 
+                    td 
+                        -if(events[i].at){
+                           #{moment(events[i].at).format(YYYY/MM/DD)}      
+                        -} 
+                    td ---action---
+
+
+            - }
